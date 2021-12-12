@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content%}
+<section class="section">
+<div class="columns">
+  <div class="column is-one-fifth ">
+    <aside class="menu">
+      <p class="menu-label has-text-black is-size-3">
+        Categories
+      </p>
+      <ul class="menu-list">
+        {% for c in categories%}
+        <li><a href = {{url_for('main.show_category_items', id = c.id)}} class = "has-text-black is-size-4">{{c.name}}</a></li>
+        {% endfor %}
+      </ul>
+    </aside>
+  </div>
+
+    <div class="columns">
+        <div class="column is-two-thirds">
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+            <div class="card">
+                <div class="card-content">
+                  <div class="content">
+                    <div class="columns">
+                         <div class = "column is-three-fifths">
+                            <img src={{url_for('static',filename=product.image)}}  />
+                         </div>
+                         <div class = "column ">
+                            <p class="title has-text-black"> {{product.name}} </p>
+                            <p class="subtitle has-text-black "> At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga </p>
+                            <br/>
+                            <p class="title has-text-black is-4"> MVR {{product.price}} </p>
+                            <div class="field is-grouped">
+                              <form action={{url_for('main.purchase_product', id=product.id)}} method= "POST">
+                                <input class="input" name = "qty" style="width: 32%;" type="number" placeholder="Qty"/>
+                                <input type="hidden" name="product_id" value={{product.id}} />
+                                <button class="button is-info" type ="submit">Buy</button>
+                              </form>
+                              <form action="/saved-items" method = "POST">
+                                <input type="hidden" name="product_id" value={{product.id}} />
+                                <!-- <button class="button is-warning">Save</button> -->
+                              </form>                     
+                           </div>
+                            {% if stock != 0 %}
+                            <p>{{stock}} items available</p>
+                            {%else%}
+                            <p>Sorry. This item is out of stock!</p>
+                            {% endif%}
+
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+
+</div>
+</section>
+{% endblock %}

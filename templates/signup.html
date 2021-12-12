@@ -1,0 +1,119 @@
+{% extends "base.html" %} {% block head %} {{ super() }}
+<!-- <style>
+  .body { background-color: black; }
+</style> -->
+{% endblock %} {% block content %}
+<section class="section">
+  <div class="columns">
+    <div class="column is-one-third">
+        <h3 class="title has-text-centered">Welcome to our Online Store, Please Sign up to place orders!</h3>
+        <!-- <div class="box"> -->
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <div class="notification is-danger">
+          {{ messages[0] }}<br />
+          Go to <a href="{{ url_for('auth.login') }}">login page</a>.
+        </div>
+        {% endif %} {% endwith %}
+
+        <form method="POST" action="/signup">
+          <div class="field">
+            <label class="is-size-5">Name</label>
+
+            <div class="control">
+              <input
+                class="input is-medium"
+                type="text"
+                name="name"
+                autofocus=""
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="is-size-5">Email</label>
+
+            <div class="control">
+              <input
+                class="input is-medium"
+                type="email"
+                name="email"
+                autofocus=""
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="is-size-5">Password</label>
+
+            <div class="control">
+              <input class="input is-medium" type="password" name="password" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="is-size-5">Address</label>
+
+            <div class="control">
+              <input
+                class="input is-medium"
+                type="text"
+                name="address"
+                autofocus=""
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="is-size-5">Date of Birth</label>
+
+            <div class="control">
+              <input
+                class="input is-medium"
+                type="date"
+                name="dob"
+                autofocus=""
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="is-size-5" l>Atoll</label>
+
+            <div class="control">
+              <select
+                name="atoll"
+                class="select is-medium is-fullwidth is-hovered"
+              >
+                {% for atoll in atolls%}
+                <option value="{{atoll.id}}">{{atoll.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="is-size-5">Island</label>
+            <div class="control">
+              <select
+                name="island"
+                class="select is-medium is-fullwidth is-hovered"
+              >
+                {% for island in islands%}
+                <option value="{{island.id}}">{{island.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <button class="button is-block is-info is-medium is-fullwidth">
+            Sign Up
+          </button>
+        </form>
+      </div>
+    <div class="container">
+
+        <img src={{url_for('static', filename='signup_image.jpg')}}>
+    </div>
+  </div>
+</section>
+{%endblock content%}

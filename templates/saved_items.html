@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="columns">
+    <div class="column is-one-fifth">
+  
+        <aside class="menu">
+          <p class="menu-label has-text-black">
+            Categories
+          </p>
+          <ul class="menu-list">
+            {% for c in categories%}
+            <li><a href = {{url_for('main.show_category_items', id = c.id)}} class = "has-text-black">{{c.name}}</a></li>
+            {%endfor%}
+          </ul>
+        </aside>
+      
+      </div>
+    
+      
+
+      <section class ="section"> 
+        <div class = "container">
+      {% if saved_products %}
+      {% for row in saved_products|batch(5, '-') %}
+      <div class="columns">
+        {% for column in row %}
+        <div class="column">
+          <div class="card">
+            <div class="card-content">
+              <div class="content">
+                <p class="subtitle is-6  has-text-black has-text-centered">{{column.name}}</p>
+                <div class="card-image">
+                  <figure class="image is-4by3">
+                  <img src={{url_for('static', filename=column.image)}} width="200" height="300" />
+                  </figure>
+                </div>
+                <p class="subtitle is-6  has-text-black has-text-centered">MVR {{column.price}}</p>
+                <!-- <form action = {{url_for('main.buy', id = column.id)}} type ="submit">
+                  <button class="button is-fullwidth">Buy</button>
+                </form>
+                <button class="button is-fullwidth">Like</button> -->
+              </div>
+            </div>
+            <footer class="card-footer">
+              <a href={{url_for('main.buy', id = column.id)}} class="card-footer-item">Buy</a>
+              <!-- <a href="#" class="card-footer-item">Like</a> -->
+              <a href="#" class="card-footer-item">Remove</a>
+            </footer>
+          </div>
+        </div>
+        {%endfor%}
+      </div>
+      {%endfor%}
+      {%else%}
+      <div><p class="title has-text-black"> Uh-oh. You have no saved items!!</p></div>
+      {%endif%}
+      </div>
+      </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %} {% block content %}
+<section class="section">
+  <div class="columns">
+    <div class="column is-one-third">
+
+
+      <h3 class="title has-text-centered">Please Login to use the awesome features..</h3>
+    </br>
+</br>
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <div class="notification is-danger">{{ messages[0] }}</div>
+      {% endif %} {% endwith %}
+      <form method="POST" action="/login">
+        <div class="field">
+          <div class="control">
+            <input
+              class="input is-medium"
+              type="email"
+              name="email"
+              placeholder="Your Email"
+              autofocus=""
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <input
+              class="input is-medium"
+              type="password"
+              name="password"
+              placeholder="Your Password"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <label class="checkbox">
+            <input type="checkbox" />
+            Remember me
+          </label>
+        </div>
+        <button class="button is-block is-info is-medium is-fullwidth">
+          Login
+        </button>
+                   <br/>
+            <br/>
+
+        <div class="field">
+ 
+        <label class="is-size-5"> Admin Settings</label>
+
+        <a href={{url_for('main.add_items')}}><img  src={{url_for('static', filename='settings.png')}} width="50" height="50"></a>
+</div>
+      </form>
+    </div>
+    <div class="column">
+        <img src={{url_for('static', filename='login_image.png')}}>
+
+    </div>
+  </div>
+
+</section>
+{% endblock %}

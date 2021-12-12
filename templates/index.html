@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- <div class="field is-grouped ">
+  <p class="control is-expanded">
+    <input class="input" type="text" placeholder="Search a product">
+  </p>
+  <p class="control">
+    <a class="button is-info">
+      Search
+    </a>
+  </p>
+</div> -->
+<section class="section">
+<div class="columns">
+  <div class="column is-one-fifth ">
+    <aside class="menu">
+      <p class="menu-label has-text-black is-size-3">
+        Categories
+      </p>
+      <ul class="menu-list">
+        {% for c in categories%}
+        <li><a href = {{url_for('main.show_category_items', id = c.id)}} class = "has-text-black is-size-4">{{c.name}}</a></li>
+        {% endfor %}
+      </ul>
+    </aside>
+  </div>
+
+
+ <section class ="section"> 
+  <div class = "container">
+   {%if current_user.is_authenticated and recommends%}
+   <p class="has-text-black is-size-3">Recommendations</p>
+  <div class="columns">
+    {% for i in recommends%}
+    <div class="column">
+      <a href={{url_for('main.buy', id = i.id)}}>
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-4by3">
+          <img src={{url_for('static', filename=i.image)}} />
+          </figure>
+          <div>
+            <p class="has-text-black has-text-centered is-capitalized has-text-weight-bold ">{{i.name}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+    {%endfor%}
+    </div>
+    <hr class="round">
+    {%endif%}
+
+
+
+      <div class = "container">
+    {% if products %}
+    {% for row in products|batch(5, '-') %}
+    <div class="columns">
+      {% for column in row %}
+      <div class="column">
+        <div class="card">
+          <div class="card-content">
+            <div class="content">
+              <p class="subtitle is-6  has-text-black has-text-centered"><strong>{{column.name}}</strong></p>
+              <div class="card-image">
+                <figure class="image is-4by3">
+                <img src={{url_for('static', filename=column.image)}}/>
+                </figure>
+              </div>
+            </br>
+              <p class="subtitle is-6  has-text-black has-text-centered">MVR {{column.price}}                &nbsp; <span id = {{column.id}}><i class="fa fa-heart-o fa-lg" aria-hidden="true" ></i> </span>
+              </p>
+
+              <form action={{url_for('main.buy', id = column.id)}}>
+                <p align="center">
+
+                <button type ="submit" class="button is-primary is-rounded">Buy Now</button>
+                <script>
+                  $(document).ready(function(){
+                    $("#{{column.id}}").click(function(){
+                      if($("#{{column.id}}").hasClass("liked")){
+                        $("#{{column.id}}").html('<i class="fa fa-heart-o fa-lg" aria-hidden="true"></i>');
+                        $("#{{column.id}}").removeClass("liked");
+
+                      }else{
+                        $("#{{column.id}}").html('<i class="fa fa-heart fa-lg" aria-hidden="true"></i>');
+                        $("#{{column.id}}").addClass("liked");
+                        $.post("{{url_for('main.like', id = column.id)}}")
+
+                      }
+                    });
+                  });
+                  </script>
+              </p>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endfor%}
+    </div>
+    {%endfor%}
+    {%else%}
+    <div><p class="title has-text-black">Sorry! There are no products in this category!</p></div>
+    {%endif%}
+    </div>
+    </section>
+</div>
+
+{% endblock %}
